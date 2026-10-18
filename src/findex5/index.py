@@ -91,7 +91,7 @@ def build_partial(
     doc_paths: list[Path],
     with_positions: bool = False,
 ) -> PartialIndex:
-    """Будує частковий індекс для заданого списку шляхів до файлів."""
+
     postings: dict[str, list[Posting]] = defaultdict(list)
     doc_lengths: dict[int, int] = {}
     doc_meta: dict[int, DocMeta] = {}
@@ -138,7 +138,7 @@ def build_partial(
 
 
 def merge(partials: Iterable[PartialIndex]) -> Index:
-    """Зливає часткові індекси у фінальний глобальний Index з унікальними doc_id."""
+
     merged_postings: dict[str, list[Posting]] = defaultdict(list)
     merged_doc_lengths: dict[int, int] = {}
     merged_doc_meta: dict[int, DocMeta] = {}
@@ -197,7 +197,7 @@ def build_distributed_index_with_metrics(
         executor_type: str = "serial",
         with_positions: bool = False,
 ) -> tuple[Index, float]:
-    """Будує індекс і повертає результати разом із часом злиття (merge_time)."""
+
     if not all_paths:
         return merge([]), 0.0
 
@@ -213,7 +213,7 @@ def build_distributed_index_with_metrics(
     task_args = [(chunk, with_positions) for chunk in chunks]
     partials = []
 
-    # Фаза побудови часткових індексів (паралельно або послідовно)
+
     if executor_type == "serial":
         for arg in task_args:
             partials.append(_build_partial_wrapper(arg))
@@ -238,7 +238,7 @@ def build_index(
     corpus: Iterable[CorpusDocument],
     with_positions: bool = False,
 ) -> Index:
-    """Класичний метод створення індексу для зворотної сумісності."""
+
     postings: dict[str, list[Posting]] = defaultdict(list)
     doc_lengths: dict[int, int] = {}
     doc_meta: dict[int, DocMeta] = {}

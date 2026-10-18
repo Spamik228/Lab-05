@@ -1,6 +1,6 @@
 from pathlib import Path
 import typer
-from findex5.index import build_distributed_index
+from findex5.index import build_distributed_index_with_metrics
 
 app = typer.Typer(help="Findex search engine CLI")
 
@@ -11,7 +11,7 @@ def index(
     executor: str = typer.Option("serial", "--executor", help="Тип екзекутора: serial, threads, processes"),
     with_positions: bool = typer.Option(False, "--with-positions", help="Зберігати позиції термінів"),
 ):
-    """Побудова пошукового індексу з підтримкою паралельності."""
+
     if not data_dir.exists():
         typer.echo(f"❌ Шлях не існує: {data_dir}", err=True)
         raise typer.Exit(code=1)
@@ -25,7 +25,7 @@ def index(
     typer.echo(f"⚙️ Режим: executor={executor}, workers={workers}")
 
     try:
-        idx = build_distributed_index(
+        idx = build_distributed_index_with_metrics(
             all_paths=all_paths,
             workers=workers,
             executor_type=executor,

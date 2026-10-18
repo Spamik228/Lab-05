@@ -34,7 +34,7 @@ def run_benchmark():
 
     for executor in executors:
         for workers in workers_list:
-            # Для serial воркери завжди логічно 1 (але пройдемося заради таблиці)
+
             if executor == "serial" and workers > 1:
                 continue
 
@@ -48,7 +48,7 @@ def run_benchmark():
                 start_cpu = time.process_time()
                 start_wall = time.perf_counter()
 
-                # Запуск побудови
+
                 _, merge_t = build_distributed_index_with_metrics(
                     all_paths=all_paths,
                     workers=workers,
@@ -73,7 +73,7 @@ def run_benchmark():
             median_rss = statistics.median(rss_peaks)
             median_merge = statistics.median(merge_times)
 
-            # Визначаємо baseline (serial з 1 воркером) для розрахунку speedup
+
             if executor == "serial" and workers == 1:
                 baseline_wall = median_wall
 
@@ -90,7 +90,7 @@ def run_benchmark():
             })
             print(f"[{executor.upper():9} | W:{workers}] -> Wall: {median_wall:.2f}s | Speedup: {speedup:.2f}x")
 
-    # Виводимо результати у вигляді таблиці
+
     print("\n" + "=" * 85)
     print(
         f"{'Executor':<10} | {'Workers':<7} | {'Wall (s)':<10} | {'CPU (s)':<10} | {'Peak RSS':<10} | {'Merge (s)':<10} | {'Speedup':<8}")
@@ -100,7 +100,7 @@ def run_benchmark():
             f"{r['executor']:<10} | {r['workers']:<7} | {r['wall']:<10.2f} | {r['cpu']:<10.2f} | {r['rss']:<9.1f}M | {r['merge']:<10.2f} | {r['speedup']:<7.2f}×")
     print("=" * 85)
 
-    # Побудова та збереження графіка (Matplotlib)
+
     plt.figure(figsize=(10, 6))
 
     for executor in executors:
@@ -111,7 +111,7 @@ def run_benchmark():
         su = [r['speedup'] for r in exec_data]
         plt.plot(ws, su, marker='o', linewidth=2, label=f"{executor}")
 
-    # Ідеальна лінійна лінія для довідки
+
     max_w = max(workers_list)
     plt.plot([1, max_w], [1, max_w], linestyle='--', color='gray', label="Ideal Linear")
 

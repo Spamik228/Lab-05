@@ -55,7 +55,7 @@ def run_io_benchmark():
             })
             print(f"[{executor_type.upper():9} | W:{workers}] -> Wall Time: {median_wall:.3f}s | Speedup: {speedup:.2f}×")
 
-    # Виводимо результати у вигляді таблиці
+
     print("\n" + "=" * 65)
     print(f"{'Executor':<12} | {'Workers':<8} | {'Wall Time (s)':<15} | {'Speedup':<8}")
     print("-" * 65)

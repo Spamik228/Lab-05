@@ -14,7 +14,7 @@ def load_arxiv_corpus(data_dir: Path, max_docs: int = 1000):
         print(f"❌ Файлів .txt не знайдено за шляхом: {data_dir}")
         return [], {}
 
-    # Змінюємо start=0 для сумісності з нумерацією у частинах
+
     for doc_id, file_path in enumerate(txt_files, start=0):
         try:
             content = file_path.read_text(encoding="utf-8")
@@ -42,21 +42,21 @@ def test_milestone1_with_arxiv_corpus():
     if not DATA_DIR.exists():
         return
 
-    # 1. Отримуємо стандартний корпус через твою функцію
+
     corpus, _ = load_arxiv_corpus(DATA_DIR, max_docs=1000)
     assert len(corpus) > 0
 
-    # 2. Витягуємо шляхи з отриманого корпусу для build_partial
+
     all_paths = [Path(doc["path"]) for doc in corpus]
 
-    # 3. Новий підхід через частковий індекс і злиття
+
     partial = build_partial(all_paths, with_positions=False)
     index_merged = merge([partial])
 
-    # 4. Класичний підхід через build_index
+
     index_standard = build_index(corpus, with_positions=False)
 
-    # 5. Перевіряємо, що результати ідентичні
+
     assert index_merged.num_docs == index_standard.num_docs
     assert len(index_merged) == len(index_standard)
     assert index_merged.avg_doc_length == index_standard.avg_doc_length

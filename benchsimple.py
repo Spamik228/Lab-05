@@ -78,7 +78,7 @@ def run_benchmark_table_only():
             })
             print(f"[{executor.upper():9} | W:{workers}] -> Wall: {median_wall:.2f}s | Speedup: {speedup:.2f}x")
 
-    # Виводимо результати у вигляді таблиці
+
     print("\n" + "=" * 85)
     print(
         f"{'Executor':<10} | {'Workers':<7} | {'Wall (s)':<10} | {'CPU (s)':<10} | {'Peak RSS':<10} | {'Merge (s)':<10} | {'Speedup':<8}")
